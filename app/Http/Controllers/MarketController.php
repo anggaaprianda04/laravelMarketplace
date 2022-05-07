@@ -18,18 +18,31 @@ class MarketController extends Controller
      */
     public function index(Request $request)
     {
-        $store = User::with('store')->find($request->user());
-        foreach ($store as $stores) {
-            if ($stores->store != null) {
-                $product = Store::with('products');
-                $product = Product::all();
+        $products = Store::with('products')->find($request->user()->store);
+        if ($products) {
+            foreach ($products as $item) {
+                $product = $item->products;
                 return view('market.index', [
                     'product' => $product
                 ]);
-            } else {
-                return view('market.notRegistrasion');
             }
+        } else {
+            return view('market.notRegistrasion');
         }
+
+
+        // foreach ($store as $stores) {
+        //     dd($stores);
+        //     if ($stores->store != null) {
+        //         $product = Store::with('products');
+        //         $product = Product::all();
+        //         return view('market.index', [
+        //             'product' => $product
+        //         ]);
+        //     } else {
+        //         return view('market.notRegistrasion');
+        //     }
+        // }
         // $markets = Store::all();
         // foreach ($markets as $market){
         //     $market = Store::with('user')->get();
@@ -63,7 +76,7 @@ class MarketController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'categories_id' => 'required|exists:category_product,id',
             'name' => 'required|string|max:255',
             'weight' => 'required|string|max:255',
@@ -74,7 +87,7 @@ class MarketController extends Controller
         ]);
 
         $product = auth()->user()->store;
-        if($product){
+        if ($product) {
             $product->products()->create([
                 'categories_id' => $request->categories_id,
                 'name' => $request->name,
