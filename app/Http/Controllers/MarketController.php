@@ -82,7 +82,7 @@ class MarketController extends Controller
             'weight' => 'required|string|max:255',
             'stock' => 'required|string',
             'price' => 'required|string',
-            'image' => 'nullable',
+            'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg',
             'description' => 'required|string'
         ]);
 
@@ -94,7 +94,7 @@ class MarketController extends Controller
                 'weight' => $request->weight,
                 'stock' => $request->stock,
                 'price' => $request->price,
-                'image' => $request->image,
+                'image' => $request->hasFile('image') ? $request->file('image')->store('images', 'public') : null ,
                 'description' => $request->description
             ]);
 
@@ -113,7 +113,7 @@ class MarketController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -124,7 +124,14 @@ class MarketController extends Controller
      */
     public function edit($id)
     {
-        //
+        $product = auth()->user()->store->products();
+        $product = Product::find($id);
+        $categories = CategoryProduct::all();
+        return view('market.edit',
+            compact('categories'),
+        [
+            'item' => $product,
+        ]);
     }
 
     /**
@@ -136,7 +143,24 @@ class MarketController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->validate([
+            'categories_id' => 'required|exists:category_product,id',
+            'name' => 'required|string|max:255',
+            'weight' => 'required|string|max:255',
+            'stock' => 'required|string',
+            'price' => 'required|string',
+            'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg',
+            'description' => 'required|string'
+        ]);
+
+        $product = auth()->user()->store;
+        if ($product) {
+            $product = Product::findOrFail($id);
+            $data = $request->all();
+            $product->update($data);
+
+            return redirect()->route('market.index');
+        }
     }
 
     /**
@@ -145,8 +169,11 @@ class MarketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Product $product, $id)
     {
-        //
+        $product = Product::find($id);
+        $product->delete();
+
+        return redirect()->route('market.index');
     }
 }
