@@ -33,7 +33,7 @@
     </div>
     <div class="p-6 border-t border-gray-200 md:border-l">
         <div class="flex items-center">
-            <div class="ml-4 text-lg text-gray-600 leading-7 font-semibold"><a href="#">Produk<a></div>
+            <div class="ml-4 text-lg text-gray-600 leading-7 font-semibold"><a href="/dashboard/products">Produk<a></div>
         </div>
     </div>
 </div>

@@ -14,7 +14,7 @@ class StoreController extends Controller
      */
     public function index()
     {
-        $stores = Store::paginate(10);
+        $stores = Store::all();
         return view('stores.index', [
             'stores' => $stores,
         ]);
