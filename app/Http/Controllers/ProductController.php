@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CategoryRequest;
-use App\Models\CategoryProduct;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +14,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $category = CategoryProduct::all();
-        return view('category.index', [
-            'category' => $category
+        $products = Product::all();
+        return view('products.index', [
+            'products' => $products,
         ]);
     }
 
@@ -28,7 +27,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('category.create');
+        //
     }
 
     /**
@@ -37,12 +36,9 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CategoryRequest $request)
+    public function store(Request $request)
     {
-        $data = $request->all();
-
-        CategoryProduct::create($data);
-        return redirect()->route('category.index');
+        //
     }
 
     /**
@@ -62,11 +58,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(CategoryProduct $category)
+    public function edit($id)
     {
-        return view('category.edit', [
-            'item' => $category,
-        ]);
+        //
     }
 
     /**
@@ -76,12 +70,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CategoryProduct $category)
+    public function update(Request $request, $id)
     {
-        $data = $request->all();
-
-        $category->update($data);
-        return redirect()->route('category.index');
+        //
     }
 
     /**
@@ -90,9 +81,8 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CategoryProduct $category)
+    public function destroy($id)
     {
-        $category->delete();
-        return redirect()->route('category.index');
+        //
     }
 }
