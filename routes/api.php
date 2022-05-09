@@ -41,6 +41,7 @@ Route::get('limits',[ProductController::class,'limits']);
 
 // CATEGORY
 Route::get('categories', [CategoryController::class, 'categories']);
+Route::get('category/{id}', [CategoryController::class,'category']);
 
 // DATA
 Route::get('districts', [DataApiController::class, 'districtsBaktiya']);

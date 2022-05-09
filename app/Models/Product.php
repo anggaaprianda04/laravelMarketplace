@@ -31,13 +31,13 @@ class Product extends Model
         return $this->belongsTo(Store::class,'store_id','id');
     }
 
-    public function toArray(){
-        $toArray = parent::toArray();
-        $toArray['image'] = $this->image;
-        return $toArray;
-    }
+    // public function toArray(){
+    //     $toArray = parent::toArray();
+    //     $toArray['image'] = $this->image;
+    //     return $toArray;
+    // }
 
-    public function getImageAttribute(){
-        return url('') . Storage::url($this->attributes['image']);
-    }
+    // public function getImageAttribute(){
+    //     return Storage::url($this->attributes['image']);
+    // }
 }
