@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('User') }}
+            {{ __('Semua User') }}
         </h2>
     </x-slot>
 
@@ -52,7 +52,7 @@
                                     <div class="text-sm text-gray-500">{{ $item->email }}</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $item->roles }}</td>
-                                
+
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <div class="flex justify-center gap-1 font-bold text-center">
                                         <a style="background-color: #efa961" href="{{ route('users.edit', $item->id) }}" class="text-white px-2 py-2 rounded w-20">Edit</a>
@@ -72,7 +72,7 @@
                               </td>
                           </tr>
                           @endforelse
-              
+
                           <!-- More people... -->
                         </tbody>
                       </table>

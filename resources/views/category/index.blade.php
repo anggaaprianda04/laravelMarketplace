@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Kategori') }}
+            {{ __('Semua Kategori') }}
         </h2>
     </x-slot>
 
@@ -20,7 +20,7 @@
                         <thead class="bg-gray-50">
                           <tr class="text-green-500">
                             <th scope="col" class="px-6 py-3 text-left font-bold">No</th>
-                            <th scope="col" class="px-6 py-3 text-left font-bold">Nama Ketegori</th>
+                            <th scope="col" class="px-6 py-3 text-left font-bold">Ketegori</th>
                             <th scope="col" class="relative px-6 py-3">
                               <span class="sr-only">Edit</span>
                             </th>
