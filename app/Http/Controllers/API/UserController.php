@@ -20,16 +20,6 @@ class UserController extends Controller
         return ResponseFormatter::success($users, 'Data semua user berhasil diambil');
     }
 
-    public function user($id){
-        $user = User::find($id);
-        if (empty($user)) {
-            return ResponseFormatter::error([
-                'message' => 'User tidak ditemukan',
-            ],'Not Found');
-        }
-        return ResponseFormatter::success($user, 'Data user berhasil diambil');
-    }
-
     public function register(Request $request)
     {
         try {
@@ -116,7 +106,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $user = User::find($id);
+            $user = User::with('store')->find($id);
             $request->validate([
                 'name' => 'required|string|max:255',
                 'username' => 'required|string|max:255',
