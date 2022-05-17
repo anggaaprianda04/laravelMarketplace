@@ -38,6 +38,7 @@ Route::get('limitsMarket',[StoreApiController::class,'limitsMarket']);
 // PRODUCT
 Route::get('products', [ProductController::class, 'products']);
 Route::get('limits',[ProductController::class,'limits']);
+Route::get('product/{id}', [ProductController::class,'product']);
 
 // CATEGORY
 Route::get('categories', [CategoryController::class, 'categories']);
