@@ -9,7 +9,7 @@ use App\Models\CategoryProduct;
 class CategoryController extends Controller
 {
     public function categories(){
-        $categories = CategoryProduct::with('products')->get();
+        $categories = CategoryProduct::all();
         return ResponseFormatter::success($categories, 'Data semua kategori berhasil diambil');
     }
 

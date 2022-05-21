@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRequest;
 use App\Models\Store;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class StoreApiController extends Controller
 {
@@ -19,7 +21,9 @@ class StoreApiController extends Controller
     public function fetch($id)
     {
         $market = Store::with('products')->find($id);
-        // $user = User::with('store')->find($request->user());
+        foreach ($market->products as $product) {
+            $product->image = url(Storage::url($product->image));
+        }
         if (empty($market)) {
             return ResponseFormatter::error([
                 'message' => 'Toko tidak ditemukan',
