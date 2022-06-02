@@ -32,6 +32,7 @@ Route::put('update/{id}',[UserController::class, 'update']);
 Route::get('markets',[StoreApiController::class, 'markets']);
 Route::get('market/{id}', [StoreApiController::class, 'fetch']);
 Route::post('createMarket', [StoreApiController::class, 'createMarket']);
+Route::post('uploadPhotoMarket/{id}',[StoreApiController::class,'uploadPhotoMarket']);
 Route::put('updateMarket/{id}', [StoreApiController::class, 'updateMarket']);
 Route::get('limitsMarket',[StoreApiController::class,'limitsMarket']);
 

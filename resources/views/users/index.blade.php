@@ -18,7 +18,7 @@
                     <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                       <table class="w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
-                          <tr class="text-green-500">
+                          <tr class="text-gray-500">
                             <th scope="col" class="px-6 py-3 text-left font-bold">No</th>
                             <th scope="col" class="px-6 py-3 text-center font-bold">Image</th>
                             <th scope="col" class="px-6 py-3 text-left font-bold">Name</th>

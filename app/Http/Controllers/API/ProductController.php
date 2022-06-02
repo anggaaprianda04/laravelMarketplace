@@ -31,6 +31,7 @@ class ProductController extends Controller
         $product = Product::with('store','category')->find($id);
         if($product){
             $product->image = url(Storage::url($product->image));
+
             return ResponseFormatter::success($product,'Data produk berhasil diambil');
         } else if(empty($product)) {
             return ResponseFormatter::error([

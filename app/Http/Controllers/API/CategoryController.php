@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
 use App\Models\CategoryProduct;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -15,6 +16,9 @@ class CategoryController extends Controller
 
     public function category($id){
         $category = CategoryProduct::with('products')->find($id);
+        foreach ($category->products as $product) {
+            $product->image = url(Storage::url($product->image));
+        }
         return ResponseFormatter::success($category,'Data kategori berhasil diambil');
     }
 }

@@ -19,7 +19,7 @@
                         <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                             <table class="w-full divide-y divide-gray-200">
                                 <thead class="bg-gray-50">
-                                    <tr class="text-green-500">
+                                    <tr class="text-gray-500">
                                         <th scope="col" class="px-6 py-3 text-left font-bold">No</th>
                                         <th scope="col" class="px-6 py-3 text-left font-bold">Gambar</th>
                                         <th scope="col" class="px-6 py-3 text-left font-bold">Toko</th>
@@ -28,7 +28,7 @@
                                         <th scope="col" class="px-6 py-3 text-left font-bold">Deskripsi</th>
                                         <th scope="col" class="px-6 py-3 text-left font-bold">Nama Rekening</th>
                                         <th scope="col" class="px-6 py-3 text-left font-bold">Nomor Rekening</th>
-                                        <th scope="col" class="px-6 py-3 text-left font-bold">Verifikasi Toko</th>
+                                        <th scope="col" class="px-6 py-3 text-left font-bold">Terverifikasi</th>
                                         <th scope="col" class="relative px-6 py-3">
                                             <span class="sr-only">Edit</span>
                                         </th>
@@ -70,7 +70,7 @@
                                                 <div style="background-color: #b6d7a8"
                                                     class="text-sm font-bold text-white text-center p-2 rounded">
                                                     <p style="color: #38761d">
-                                                        {{ $item->verification_store ? 'true' : 'false' }}
+                                                        {{ $item->verification_store ? 'ya' : 'tidak' }}
                                                     </p>
                                                 </div>
                                             </td>

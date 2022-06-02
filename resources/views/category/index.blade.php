@@ -18,7 +18,7 @@
                     <div style="width: 70%" class="shadow overflow-hidden border-b w-auto border-gray-200 sm:rounded-lg">
                       <table style="width: 100%" class="divide-y divide-gray-200">
                         <thead class="bg-gray-50">
-                          <tr class="text-green-500">
+                          <tr class="text-gray-500">
                             <th scope="col" class="px-6 py-3 text-left font-bold">No</th>
                             <th scope="col" class="px-6 py-3 text-left font-bold">Ketegori</th>
                             <th scope="col" class="relative px-6 py-3">

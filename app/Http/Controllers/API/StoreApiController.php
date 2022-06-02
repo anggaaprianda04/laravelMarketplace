@@ -6,9 +6,11 @@ use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRequest;
 use App\Models\Store;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class StoreApiController extends Controller
 {
@@ -21,6 +23,9 @@ class StoreApiController extends Controller
     public function fetch($id)
     {
         $market = Store::with('products')->find($id);
+        if($market->image){
+            $market->image = url(Storage::url($market->image));
+        }
         foreach ($market->products as $product) {
             $product->image = url(Storage::url($product->image));
         }
@@ -35,8 +40,26 @@ class StoreApiController extends Controller
     public function createMarket(StoreRequest $request)
     {
         $market = Store::create($request->all());
-
         return ResponseFormatter::success($market, 'Toko Berhasil dibuat');
+    }
+
+    public function uploadPhotoMarket(Request $request,$id){
+        $validator = Validator::make($request->all(),[
+            'file' => 'nullable|image|mimes:png,jpg'
+        ]);
+
+        if($validator->fails()){
+            return ResponseFormatter::error([
+                'error' => $validator->errors(),],'Update photo fails', 401);
+        }
+
+        if($request->file('file')){
+            $file = $request->file->store('assets/market','public');
+            $market = Store::find($id);
+            $market->image = $file;
+            $market->update();
+            return ResponseFormatter::success([$file],'File successfully uploaders');
+        }
     }
 
     public function limitsMarket(Request $request){

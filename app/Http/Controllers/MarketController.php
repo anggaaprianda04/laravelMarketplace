@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Store;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class MarketController extends Controller
 {
@@ -94,14 +95,11 @@ class MarketController extends Controller
                 'weight' => $request->weight,
                 'stock' => $request->stock,
                 'price' => $request->price,
-                'image' => $request->hasFile('image') ? $request->file('image')->store('images', 'public') : null ,
+                'image' => $request->hasFile('image') ?  $request->file('image')->store('public') : null,
                 'description' => $request->description
             ]);
-
             return redirect()->route('market.index');
         }
-        // $product = Store::with('products')->get();
-        // $product->products()->save($request->all());
         return redirect()->route('market.index');
     }
 
@@ -158,7 +156,6 @@ class MarketController extends Controller
             $product = Product::findOrFail($id);
             $data = $request->all();
             $product->update($data);
-
             return redirect()->route('market.index');
         }
     }
