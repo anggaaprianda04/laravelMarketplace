@@ -23,7 +23,7 @@ class StoreApiController extends Controller
     public function fetch($id)
     {
         $market = Store::with('products')->find($id);
-        if($market->image){
+        if ($market->image) {
             $market->image = url(Storage::url($market->image));
         }
         foreach ($market->products as $product) {
@@ -37,33 +37,54 @@ class StoreApiController extends Controller
         return ResponseFormatter::success($market, 'Data Toko berhasil diambil');
     }
 
-    public function createMarket(StoreRequest $request)
+    public function createMarket(Request $request)
     {
-        $market = Store::create($request->all());
+        $request->validate([
+            'users_id' => 'required|exists:users,id|unique:store,users_id',
+            'name_store' => 'required|string|max:255',
+            'village' => 'required|string|max:255',
+            'address' => 'required|string',
+            'description' => 'required|string',
+            'account_name' => 'required|string|max:255',
+            'account_number' => 'required',
+            'verification_store' => 'nullable',
+            'image' => 'required|image|mimes:png,jpg,jpeg',
+        ]);
+        $market = Store::create([
+            'users_id' => $request->users_id,
+            'name_store' => $request->name_store,
+            'village' => $request->village,
+            'address' => $request->address,
+            'description' => $request->description,
+            'account_name' => $request->account_name,
+            'account_number' => $request->account_number,
+            'image' => $request->hasFile('image') ?  $request->file('image')->store('assets/market','public') : null,
+        ]);
         return ResponseFormatter::success($market, 'Toko Berhasil dibuat');
     }
 
-    public function uploadPhotoMarket(Request $request,$id){
-        $validator = Validator::make($request->all(),[
-            'file' => 'nullable|image|mimes:png,jpg'
-        ]);
+    // public function uploadPhotoMarket(Request $request,$id){
+    //     $validator = Validator::make($request->all(),[
+    //         'file' => 'nullable|image|mimes:png,jpg'
+    //     ]);
 
-        if($validator->fails()){
-            return ResponseFormatter::error([
-                'error' => $validator->errors(),],'Update photo fails', 401);
-        }
+    //     if($validator->fails()){
+    //         return ResponseFormatter::error([
+    //             'error' => $validator->errors(),],'Update photo fails', 401);
+    //     }
 
-        if($request->file('file')){
-            $file = $request->file->store('assets/market','public');
-            $market = Store::find($id);
-            $market->image = $file;
-            $market->update();
-            return ResponseFormatter::success([$file],'File successfully uploaders');
-        }
-    }
+    //     if($request->file('file')){
+    //         $file = $request->file->store('assets/market','public');
+    //         $market = Store::find($id);
+    //         $market->image = $file;
+    //         $market->update();
+    //         return ResponseFormatter::success([$file],'File successfully uploaders');
+    //     }
+    // }
 
-    public function limitsMarket(Request $request){
-        $limit = $request->input('limit',6);
+    public function limitsMarket(Request $request)
+    {
+        $limit = $request->input('limit', 6);
 
         $markets = Store::with('products');
         return ResponseFormatter::success(
@@ -90,7 +111,7 @@ class StoreApiController extends Controller
             $data = $request->all();
             $market->update($data);
 
-            return ResponseFormatter::success($market,'Toko Berhasil diubah');
+            return ResponseFormatter::success($market, 'Toko Berhasil diubah');
         } catch (\Throwable $th) {
             return ResponseFormatter::error([
                 'message' => $th,
