@@ -15,7 +15,7 @@
     </div>
 </div> --}}
 
-<div class="bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-2">
+{{-- <div class="bg-white grid grid-cols-1 md:grid-cols-2">
     <div class="p-6">
         <div class="flex items-center">
             <div class="ml-4 text-lg text-gray-600 leading-7 font-semibold"><a href="/dashboard/users">User</a></div>
@@ -36,5 +36,5 @@
             <div class="ml-4 text-lg text-gray-600 leading-7 font-semibold"><a href="/dashboard/products">Produk<a></div>
         </div>
     </div>
-</div>
+</div> --}}
 

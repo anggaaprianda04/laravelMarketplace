@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRequest;
 use App\Models\Store;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -17,6 +18,9 @@ class StoreApiController extends Controller
     public function markets()
     {
         $markets = Store::all();
+        foreach ($markets as $market) {
+            $market->image = url(Storage::url($market->image));
+        }
         return ResponseFormatter::success($markets, 'Data semua toko berhasil diambil');
     }
 
@@ -63,54 +67,48 @@ class StoreApiController extends Controller
         return ResponseFormatter::success($market, 'Toko Berhasil dibuat');
     }
 
-    // public function uploadPhotoMarket(Request $request,$id){
-    //     $validator = Validator::make($request->all(),[
-    //         'file' => 'nullable|image|mimes:png,jpg'
-    //     ]);
-
-    //     if($validator->fails()){
-    //         return ResponseFormatter::error([
-    //             'error' => $validator->errors(),],'Update photo fails', 401);
-    //     }
-
-    //     if($request->file('file')){
-    //         $file = $request->file->store('assets/market','public');
-    //         $market = Store::find($id);
-    //         $market->image = $file;
-    //         $market->update();
-    //         return ResponseFormatter::success([$file],'File successfully uploaders');
-    //     }
-    // }
-
-    public function limitsMarket(Request $request)
+    public function limitsMarket()
     {
-        $limit = $request->input('limit', 6);
+        $markets = Store::take(6)->get();
+        try {
+            if ($markets) {
+                foreach ($markets as $market) {
+                    $market->image = url(Storage::url($market->image));
+                }
+                return ResponseFormatter::success($markets, 'Data list toko berhasil diambil');
+            }
+        } catch (\Throwable $th) {
+            return ResponseFormatter::error($th);
+        }
 
-        $markets = Store::with('products');
-        return ResponseFormatter::success(
-            $markets->paginate($limit),
-            'Data list toko berhasil diambil'
-        );
     }
 
     public function updateMarket(Request $request, $id)
     {
         try {
-            $data = $request->validate([
-                'users_id' => 'required|exists:users,id',
-                'name_store' => 'required|string|max:255',
-                'village' => 'required|string|max:255',
-                'address' => 'required|string',
-                'description' => 'required|string',
-                'account_name' => 'required|string|max:255',
-                'account_number' => 'required',
-                'verification_store' => 'nullable',
-                'image' => 'nullable',
-            ]);
             $market = Store::findOrFail($id);
-            $data = $request->all();
-            $market->update($data);
+            $request->validate([
+                'users_id' => 'required|exists:users,id',
+                'name_store' => 'nullable|string|max:255',
+                'village' => 'nullable|string|max:255',
+                'address' => 'nullable|string',
+                'description' => 'nullable|string',
+                'account_name' => 'nullable|string|max:255',
+                'account_number' => 'nullable',
+                'verification_store' => 'nullable',
+                'image' => 'nullable|image|mimes:png,jpg,jpeg',
+            ]);
 
+            $market->update([
+                'users_id' => $request->users_id,
+                'name_store' => $request->name_store,
+                'village' => $request->village,
+                'address' => $request->address,
+                'description' => $request->description,
+                'account_name' => $request->account_name,
+                'account_number' => $request->account_number,
+                'image' => $request->hasFile('image') ?  $request->file('image')->store('assets/market','public') : null,
+            ]);
             return ResponseFormatter::success($market, 'Toko Berhasil diubah');
         } catch (\Throwable $th) {
             return ResponseFormatter::error([
