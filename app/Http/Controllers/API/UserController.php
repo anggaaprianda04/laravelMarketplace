@@ -106,14 +106,20 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $user = User::with('store')->find($id);
+            $user = User::with('store')->findOrFail($id);
             $request->validate([
                 'name' => 'required|string|max:255',
                 'username' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255',
+                'profile_photo_path' => 'nullable|image|mimes:png,jpg,jpeg'
             ]);
-            $data = $request->all();
-            $user->update($data);
+            $user->update([
+                'name' => $request->name,
+                'username' => $request->username,
+                'email' => $request->email,
+                'profile_photo_path' => $request->hasFile('profile_photo_path') ?  $request->file('profile_photo_path')->store('assets/user', 'public') : null,
+            ]);
+
             return ResponseFormatter::success($user, 'Data berhasil diubah');
         } catch (Exception $error) {
             return ResponseFormatter::error([

@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'login']);
 Route::get('users', [UserController::class, 'users']);
-Route::put('update/{id}',[UserController::class, 'update']);
+Route::post('update/{id}',[UserController::class, 'update']);
 // Route::get('user/{id}', [UserController::class, 'user']);
 // Route::delete('delete/{id}', [UserController::class, 'delete']);
 
