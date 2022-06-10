@@ -19,7 +19,11 @@ class StoreApiController extends Controller
     {
         $markets = Store::all();
         foreach ($markets as $market) {
-            $market->image = url(Storage::url($market->image));
+            if ($market->image != null) {
+                $market->image = url(Storage::url($market->image));
+            } else {
+                url($market->image);
+            }
         }
         return ResponseFormatter::success($markets, 'Data semua toko berhasil diambil');
     }
@@ -27,8 +31,10 @@ class StoreApiController extends Controller
     public function fetch($id)
     {
         $market = Store::with('products')->find($id);
-        if ($market->image) {
+        if ($market->image != null) {
             $market->image = url(Storage::url($market->image));
+        } else {
+            url($market->image);
         }
         foreach ($market->products as $product) {
             $product->image = url(Storage::url($product->image));
@@ -62,7 +68,7 @@ class StoreApiController extends Controller
             'description' => $request->description,
             'account_name' => $request->account_name,
             'account_number' => $request->account_number,
-            'image' => $request->hasFile('image') ?  $request->file('image')->store('assets/market','public') : null,
+            'image' => $request->hasFile('image') ?  $request->file('image')->store('assets/market', 'public') : null,
         ]);
         return ResponseFormatter::success($market, 'Toko Berhasil dibuat');
     }
@@ -73,14 +79,17 @@ class StoreApiController extends Controller
         try {
             if ($markets) {
                 foreach ($markets as $market) {
-                    $market->image = url(Storage::url($market->image));
+                    if ($market->image != null) {
+                        $market->image = url(Storage::url($market->image));
+                    } else {
+                        url($market->image);
+                    }
                 }
                 return ResponseFormatter::success($markets, 'Data list toko berhasil diambil');
             }
         } catch (\Throwable $th) {
             return ResponseFormatter::error($th);
         }
-
     }
 
     public function updateMarket(Request $request, $id)
@@ -107,7 +116,7 @@ class StoreApiController extends Controller
                 'description' => $request->description,
                 'account_name' => $request->account_name,
                 'account_number' => $request->account_number,
-                'image' => $request->hasFile('image') ?  $request->file('image')->store('assets/market','public') : null,
+                'image' => $request->hasFile('image') ?  $request->file('image')->store('assets/market', 'public') : null,
             ]);
             return ResponseFormatter::success($market, 'Toko Berhasil diubah');
         } catch (\Throwable $th) {

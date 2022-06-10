@@ -10,6 +10,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Fortify\Rules\Password;
 
 class UserController extends Controller
@@ -92,6 +93,13 @@ class UserController extends Controller
     public function fetch(Request $request)
     {
         $user = User::with('store')->find($request->user());
+        foreach ($user as $item) {
+            if ($item->profile_photo_path != null) {
+                $item->profile_photo_path = url(Storage::url($item->profile_photo_path));
+            } else {
+                url($item->profile_photo_path);
+            }
+        }
         return ResponseFormatter::success($user, 'Data profil berhasil diambil');
     }
 
@@ -136,7 +144,7 @@ class UserController extends Controller
             if (empty($user)) {
                 return ResponseFormatter::error([
                     'message' => 'User tidak ditemukan',
-                ],'Not Found');
+                ], 'Not Found');
             }
             return ResponseFormatter::success($user, 'Data user berhasil dihapus');
         } catch (Exception $err) {
