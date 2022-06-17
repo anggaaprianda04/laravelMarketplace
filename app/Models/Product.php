@@ -31,13 +31,8 @@ class Product extends Model
         return $this->belongsTo(Store::class,'store_id','id');
     }
 
-    // public function toArray(){
-    //     $toArray = parent::toArray();
-    //     $toArray['image'] = $this->image;
-    //     return $toArray;
-    // }
+    public function cart(){
+        return $this->hasOne(Cart::class,'product_id','id');
+    }
 
-    // public function getImageAttribute(){
-    //     return Storage::url($this->attributes['image']);
-    // }
 }

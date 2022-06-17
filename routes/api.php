@@ -1,12 +1,11 @@
 <?php
 
-use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\CartApiController;
+use App\Http\Controllers\API\CategoryApiController;
 use App\Http\Controllers\API\DataApiController;
-use App\Http\Controllers\API\ProductController;
-use App\Http\Controllers\API\StoreApiController;
-use App\Http\Controllers\API\StoreController;
-use App\Http\Controllers\API\UserController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\API\MarketApiController;
+use App\Http\Controllers\API\ProductApiController;
+use App\Http\Controllers\API\UserApiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,37 +20,42 @@ use Illuminate\Support\Facades\Route;
 */
 
 // USER
-Route::post('register', [UserController::class, 'register']);
-Route::post('login', [UserController::class, 'login']);
-Route::get('users', [UserController::class, 'users']);
-Route::post('update/{id}',[UserController::class, 'update']);
+Route::post('register', [UserApiController::class, 'register']);
+Route::post('login', [UserApiController::class, 'login']);
+Route::get('users', [UserApiController::class, 'users']);
+Route::post('update/{id}',[UserApiController::class, 'update']);
 // Route::get('user/{id}', [UserController::class, 'user']);
 // Route::delete('delete/{id}', [UserController::class, 'delete']);
 
 // MARKET
-Route::get('markets',[StoreApiController::class, 'markets']);
-Route::get('market/{id}', [StoreApiController::class, 'fetch']);
-Route::post('createMarket', [StoreApiController::class, 'createMarket']);
-Route::post('uploadPhotoMarket/{id}',[StoreApiController::class,'uploadPhotoMarket']);
-Route::post('updateMarket/{id}', [StoreApiController::class, 'updateMarket']);
-Route::get('limitsMarket',[StoreApiController::class,'limitsMarket']);
+Route::get('markets',[MarketApiController::class, 'markets']);
+Route::get('market/{id}', [MarketApiController::class, 'fetch']);
+Route::post('createMarket', [MarketApiController::class, 'createMarket']);
+Route::post('uploadPhotoMarket/{id}',[MarketApiController::class,'uploadPhotoMarket']);
+Route::post('updateMarket/{id}', [MarketApiController::class, 'updateMarket']);
+Route::get('limitsMarket',[MarketApiController::class,'limitsMarket']);
 
 // PRODUCT
-Route::get('products', [ProductController::class, 'products']);
-Route::get('limits',[ProductController::class,'limits']);
-Route::get('product/{id}', [ProductController::class,'product']);
-Route::get('search/{name}',[ProductController::class,'search']);
+Route::get('products', [ProductApiController::class, 'products']);
+Route::get('limits',[ProductApiController::class,'limits']);
+Route::get('product/{id}', [ProductApiController::class,'product']);
+Route::get('search/{name}',[ProductApiController::class,'search']);
 
 // CATEGORY
-Route::get('categories', [CategoryController::class, 'categories']);
-Route::get('category/{id}', [CategoryController::class,'category']);
+Route::get('categories', [CategoryApiController::class, 'categories']);
+Route::get('category/{id}', [CategoryApiController::class,'category']);
 
 // DATA
 Route::get('districts', [DataApiController::class, 'districtsBaktiya']);
 
 
 Route::middleware('auth:sanctum')->group(function() {
-    Route::get('user',[UserController::class, 'fetch']);
-    Route::post('logout', [UserController::class, 'logout']);
+    Route::get('user',[UserApiController::class, 'fetch']);
+    Route::post('logout', [UserApiController::class, 'logout']);
 
+    // CART
+    Route::post('addCart',[CartApiController::class,'addCart']);
+    Route::get('myCart',[CartApiController::class,'myCart']);
+    Route::delete('deleteCart/{id}',[CartApiController::class,'deleteCart']);
+    Route::put('updateCart/{id}',[CartApiController::class,'updateCart']);
 });

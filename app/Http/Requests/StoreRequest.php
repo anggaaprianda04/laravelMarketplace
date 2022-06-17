@@ -32,7 +32,7 @@ class StoreRequest extends FormRequest
             'account_name' => 'required|string|max:255',
             'account_number' => 'required',
             'verification_store' => 'nullable',
-            'image' => 'nullable',
+            'image' => 'nullable|image|mimes:png,jpg,jpeg',
         ];
     }
 }
