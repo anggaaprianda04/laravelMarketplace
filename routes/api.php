@@ -4,7 +4,9 @@ use App\Http\Controllers\API\CartApiController;
 use App\Http\Controllers\API\CategoryApiController;
 use App\Http\Controllers\API\DataApiController;
 use App\Http\Controllers\API\MarketApiController;
+use App\Http\Controllers\API\OrderApiController;
 use App\Http\Controllers\API\ProductApiController;
+use App\Http\Controllers\API\TransactionApiController;
 use App\Http\Controllers\API\UserApiController;
 use Illuminate\Support\Facades\Route;
 
@@ -48,6 +50,10 @@ Route::get('category/{id}', [CategoryApiController::class,'category']);
 // DATA
 Route::get('districts', [DataApiController::class, 'districtsBaktiya']);
 
+Route::get('orderMarket/{id}', [OrderApiController::class, 'orderMarket']);
+Route::get('orderUser/{id}', [OrderApiController::class, 'orderUser']);
+
+Route::get('allOrder',[OrderApiController::class, 'allOrder']);
 
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('user',[UserApiController::class, 'fetch']);
@@ -58,4 +64,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('myCart',[CartApiController::class,'myCart']);
     Route::delete('deleteCart/{id}',[CartApiController::class,'deleteCart']);
     Route::put('updateCart/{id}',[CartApiController::class,'updateCart']);
+
+    // ORDER
+    Route::post('checkout', [OrderApiController::class, 'checkout']);
 });
