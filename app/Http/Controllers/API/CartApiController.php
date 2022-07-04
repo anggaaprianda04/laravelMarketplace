@@ -7,12 +7,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use function PHPUnit\Framework\isEmpty;
 
 class CartApiController extends Controller
 {
     public function myCart(Request $request)
     {
-        $carts = Cart::with('product', 'user')->where('users_id', $request->user()->id)->get();
+        $carts = Cart::with('product.store', 'user')->where('users_id', $request->user()->id)->get();
         if ($carts) {
             foreach ($carts as $item) {
                 $imageProduct = $item->product;
@@ -47,9 +48,24 @@ class CartApiController extends Controller
         }
     }
 
+    public function deleteAllCart()
+    {
+        $cart = Cart::all();
+        if (isEmpty($cart)) {
+            return ResponseFormatter::error('Item keranjang tidak ditemukan');
+        }
+        $cart->each->delete();
+        return response()->json([
+            'message' =>  'List semua item keranjang berhasil dihapus'
+        ]);
+    }
+
     public function deleteCart($id)
     {
         $cart = Cart::find($id);
+        if (empty($cart)) {
+            return ResponseFormatter::error('Item keranjang tidak ditemukan');
+        }
         $cart->delete();
         return ResponseFormatter::success($cart, 'List item keranjang berhasil dihapus');
     }
