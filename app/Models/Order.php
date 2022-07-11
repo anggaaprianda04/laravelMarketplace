@@ -20,23 +20,27 @@ class Order extends Model
         'store_id',
         'status',
         'total_price',
-        'product_id'
+        'product_id',
+        'created_at'
     ];
 
-    public function items(){
+    public function items()
+    {
         return $this->belongsTo(Product::class);
     }
 
-    public function orderItem(){
+    public function orderItem()
+    {
         return $this->hasMany(OrderItem::class);
     }
 
-    public function user(){
-        return $this->belongsTo(User::class,'users_id');
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'users_id');
     }
 
-    public function market(){
-        return $this->belongsTo(Store::class,'store_id');
+    public function market()
+    {
+        return $this->belongsTo(Store::class, 'store_id');
     }
-
 }

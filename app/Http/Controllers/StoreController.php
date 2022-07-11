@@ -58,9 +58,11 @@ class StoreController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Store $store)
     {
-        //
+        return view('stores.edit', [
+            'item' => $store,
+        ]);
     }
 
     /**
@@ -72,7 +74,13 @@ class StoreController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->validate([
+            'verification_store' => ['required', 'in:0,1'],
+        ]);
+        $store = Store::findOrFail($id);
+        $data = $request->all();
+        $store->update($data);
+        return redirect()->route('stores.index');
     }
 
     /**

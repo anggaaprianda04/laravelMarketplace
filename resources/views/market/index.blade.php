@@ -43,8 +43,8 @@
                                                 {{ $num++ }}</td>
                                             <td class="py-4">
                                                 <div class="flex">
-                                                    <img class="mx-auto h-16 w-16 rounded-full" src="{{ Storage::url($item->image) }}"
-                                                        alt="produk">
+                                                    <img class="mx-auto h-16 w-16 rounded-full"
+                                                        src="{{ Storage::url($item->image) }}" alt="produk">
                                                 </div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -81,7 +81,7 @@
                                     @empty
                                         <tr style="width: 100%">
                                             <td colspan="12" class="border text-center p-5">
-                                               <p class="py-10">Data Tidak Ada</p>
+                                                <p class="py-10">Data Tidak Ada</p>
                                             </td>
                                         </tr>
                                     @endforelse

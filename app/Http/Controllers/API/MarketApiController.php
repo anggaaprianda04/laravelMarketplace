@@ -8,6 +8,7 @@ use App\Http\Requests\StoreRequest;
 use App\Models\Store;
 use App\Models\User;
 use Exception;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -94,35 +95,30 @@ class MarketApiController extends Controller
 
     public function updateMarket(Request $request, $id)
     {
-        try {
-            $market = Store::findOrFail($id);
-            $request->validate([
-                'users_id' => 'required|exists:users,id',
-                'name_store' => 'nullable|string|max:255',
-                'village' => 'nullable|string|max:255',
-                'address' => 'nullable|string',
-                'description' => 'nullable|string',
-                'account_name' => 'nullable|string|max:255',
-                'account_number' => 'nullable',
-                'verification_store' => 'nullable',
-                'image' => 'nullable|image|mimes:png,jpg,jpeg',
-            ]);
-
-            $market->update([
-                'users_id' => $request->users_id,
-                'name_store' => $request->name_store,
-                'village' => $request->village,
-                'address' => $request->address,
-                'description' => $request->description,
-                'account_name' => $request->account_name,
-                'account_number' => $request->account_number,
-                'image' => $request->hasFile('image') ?  $request->file('image')->store('assets/market', 'public') : null,
-            ]);
-            return ResponseFormatter::success($market, 'Toko Berhasil diubah');
-        } catch (\Throwable $th) {
-            return ResponseFormatter::error([
-                'message' => $th,
-            ], 'Data gagal diubah');
+        $market = Store::find($id);
+        if (!$market) {
+            return response()->json(['message' => 'Id not found'], 404);
         }
+        $data = Validator::make($request->all(), [
+            'users_id' => 'exists:users,id',
+            'name_store' => 'nullable|string|max:255',
+            'village' => 'nullable|string|max:255',
+            'address' => 'nullable|string',
+            'description' => 'nullable|string',
+            'account_name' => 'nullable|string|max:255',
+            'account_number' => 'nullable|string',
+            'verification_store' => 'nullable',
+            'image' => 'nullable|image|mimes:png,jpg,jpeg',
+        ]);
+
+        if ($data->fails()) {
+            return response()->json(['success' => false, 'message' => $data->errors()], 400);
+        }
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('assets/market', 'public');
+            $market['image'] = $path;
+        }
+        $market->update($request->except('image'));
+        return ResponseFormatter::success($market, 'Toko Berhasil diubah');
     }
 }

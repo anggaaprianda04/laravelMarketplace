@@ -5,14 +5,8 @@
         </h2>
     </x-slot>
 
-    <div class="py-2" style="background-color: white">
+    <div class="py-2 overflow-auto" style="background-color: white">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="mb-10">
-                <a href="{{ route('stores.create') }}"
-                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-2 rounded">
-                    + Buat Toko
-                </a>
-            </div>
             <div class="flex flex-col">
                 <div class="-my-2 overflow-x-auto">
                     <div class="py-2 align-middle inline-block min-w-full">
@@ -21,16 +15,16 @@
                                 <thead class="bg-gray-50">
                                     <tr class="text-gray-500">
                                         <th scope="col" class="px-6 py-3 text-left font-bold">No</th>
-                                        <th scope="col" class="px-6 py-3 text-left font-bold">Gambar</th>
+                                        {{-- <th scope="col" class="px-6 py-3 text-left font-bold">Gambar</th> --}}
                                         <th scope="col" class="px-6 py-3 text-left font-bold">Toko</th>
                                         <th scope="col" class="px-6 py-3 text-left font-bold">Desa </th>
                                         <th scope="col" class="px-6 py-3 text-left font-bold">Alamat</th>
                                         <th scope="col" class="px-6 py-3 text-left font-bold">Deskripsi</th>
                                         <th scope="col" class="px-6 py-3 text-left font-bold">Nama Rekening</th>
                                         <th scope="col" class="px-6 py-3 text-left font-bold">Nomor Rekening</th>
-                                        <th scope="col" class="px-6 py-3 text-left font-bold">Terverifikasi</th>
+                                        <th scope="col" class="px-6 py-3 text-left font-bold">Verifikasi</th>
                                         <th scope="col" class="relative px-6 py-3">
-                                            <span class="sr-only">Edit</span>
+                                            <span class="sr-only">Aksi</span>
                                         </th>
                                     </tr>
                                 </thead>
@@ -42,12 +36,12 @@
                                         <tr>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
                                                 {{ $num++ }}</td>
-                                            <td class="flex justify-center">
+                                            {{-- <td class="flex justify-center">
                                                 <div class="grow-0 h-10 w-10">
                                                     <img class="h-10 w-10 rounded-full mt-4"
                                                         src="{{ Storage::url($item->image) }}" alt="toko">
                                                 </div>
-                                            </td>
+                                            </td> --}}
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                 {{ $item->name_store }}
                                             </td>
@@ -78,16 +72,8 @@
                                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                 <div class="flex justify-center gap-1 font-bold text-center">
                                                     <a style="background-color: #efa961"
-                                                        href="{{ route('users.edit', $item->id) }}"
+                                                        href="{{ route('stores.edit', $item->id) }}"
                                                         class="text-white px-2 py-2 rounded w-20">Edit</a>
-                                                    <form action="{{ route('users.destroy', $item->id) }}"
-                                                        method="POST" class="inline-block">
-                                                        {!! method_field('delete') . csrf_field() !!}
-                                                        <button style="background-color: #ff928a;color: darkred"
-                                                            type="submit" class="font-bold px-2 py-2 rounded w-20">
-                                                            Hapus
-                                                        </button>
-                                                    </form>
                                                 </div>
                                             </td>
                                         </tr>

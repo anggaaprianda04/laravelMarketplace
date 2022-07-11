@@ -19,15 +19,6 @@ class OrderApiController extends Controller
     public function orderMarket($id)
     {
         $pesanan = Order::with('user', 'orderItem.product')->where('store_id', $id)->get();
-
-        // foreach ($pesanan as $item) {
-        //     $item->image = url(Storage::url($item->image));
-        // }
-
-        // foreach ($pesanan as $item) {
-        //     $item->user->profile_photo_path = url(Storage::url($item->user->profile_photo_path));
-        // }
-
         if (count($pesanan) <= 0)  return response()->json([
             'message' =>  'Belum ada pesanan'
         ]);

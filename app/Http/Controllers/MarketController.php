@@ -22,6 +22,9 @@ class MarketController extends Controller
         $products = Store::with('products')->find($request->user()->store);
         if ($products) {
             foreach ($products as $item) {
+                if ($item->verification_store == 0) {
+                    return view('market.notVerificationStore');
+                }
                 $product = $item->products;
                 return view('market.index', [
                     'product' => $product
@@ -111,7 +114,6 @@ class MarketController extends Controller
      */
     public function show($id)
     {
-
     }
 
     /**
@@ -125,11 +127,13 @@ class MarketController extends Controller
         $product = auth()->user()->store->products();
         $product = Product::find($id);
         $categories = CategoryProduct::all();
-        return view('market.edit',
+        return view(
+            'market.edit',
             compact('categories'),
-        [
-            'item' => $product,
-        ]);
+            [
+                'item' => $product,
+            ]
+        );
     }
 
     /**

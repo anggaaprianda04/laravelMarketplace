@@ -14,18 +14,10 @@ class CartApiController extends Controller
     public function myCart(Request $request)
     {
         $carts = Cart::with('product.store', 'user')->where('users_id', $request->user()->id)->get();
-        if ($carts) {
-            foreach ($carts as $item) {
-                $imageProduct = $item->product;
-                if ($imageProduct->image) {
-                    $imageProduct->image = url(Storage::url($imageProduct->image));
-                }
-            }
-            return ResponseFormatter::success($carts, 'List keranjang berhasil ditampilkan');
-        }
-        if ($carts == null) {
-            return ResponseFormatter::success($carts, 'List keranjang kosong');
-        }
+        if (count($carts) <= 0)  return response()->json([
+            'message' =>  'Belum ada pesanan'
+        ]);
+        return ResponseFormatter::success($carts, 'List keranjang berhasil ditampilkan');
     }
 
     public function addCart(Request $request)
@@ -51,9 +43,6 @@ class CartApiController extends Controller
     public function deleteAllCart()
     {
         $cart = Cart::all();
-        if (isEmpty($cart)) {
-            return ResponseFormatter::error('Item keranjang tidak ditemukan');
-        }
         $cart->each->delete();
         return response()->json([
             'message' =>  'List semua item keranjang berhasil dihapus'

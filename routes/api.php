@@ -33,7 +33,7 @@ Route::post('update/{id}', [UserApiController::class, 'update']);
 Route::get('markets', [MarketApiController::class, 'markets']);
 Route::get('market/{id}', [MarketApiController::class, 'fetch']);
 Route::post('createMarket', [MarketApiController::class, 'createMarket']);
-Route::post('uploadPhotoMarket/{id}', [MarketApiController::class, 'uploadPhotoMarket']);
+// Route::post('uploadPhotoMarket/{id}', [MarketApiController::class, 'uploadPhotoMarket']);
 Route::post('updateMarket/{id}', [MarketApiController::class, 'updateMarket']);
 Route::get('limitsMarket', [MarketApiController::class, 'limitsMarket']);
 
