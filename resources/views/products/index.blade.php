@@ -26,9 +26,7 @@
                                         <th scope="col" class="px-6 py-3 text-left font-bold">Stok</th>
                                         <th scope="col" class="px-6 py-3 text-left font-bold">Harga</th>
                                         <th scope="col" class="px-6 py-3 text-left font-bold">Deskripsi</th>
-                                        <th scope="col" class="relative px-6 py-3">
-                                            <span class="sr-only">Edit</span>
-                                        </th>
+
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
@@ -58,23 +56,7 @@
                                                 {{ $item->price }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                 {{ $item->description }}</td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                <div class="flex justify-center gap-1 font-bold text-center">
-                                                    <a style="background-color: #efa961"
-                                                        href="{{ route('market.edit', $item->id) }}"
-                                                        class="text-white px-2 py-2 rounded w-20">Edit</a>
 
-                                                    <form action="{{ route('market.destroy', $item->id) }}"
-                                                        method="POST" class="inline-block">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button style="background-color: #ff928a;color: darkred"
-                                                            type="submit" class="font-bold px-2 py-2 rounded w-20">
-                                                            Hapus
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </td>
                                         </tr>
 
                                     @empty
