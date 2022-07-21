@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
@@ -15,8 +16,10 @@ class TransactionController extends Controller
     public function index()
     {
         $order = Order::all();
+        $totalQuantity = OrderItem::sum('quantity');
         return view('order.index', [
             'order' => $order,
+            'totalQuantity' => $totalQuantity,
         ]);
     }
 

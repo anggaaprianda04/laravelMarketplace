@@ -43,4 +43,14 @@ class Order extends Model
     {
         return $this->belongsTo(Store::class, 'store_id');
     }
+
+    public function getQuantityAttribute()
+    {
+        return $this->orderItem->sum('quantity');
+    }
+
+    public function getTotalQuantityAttribute()
+    {
+        return $this->orderItem->sum('quantity')->get();
+    }
 }
