@@ -44,25 +44,25 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t $ECR_REGISTRY/markettani:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/markettani:$IMAGE_TAG
+          docker build -t $ECR_REGISTRY/marketplace:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/marketplace:$IMAGE_TAG
 
       - name: Download task def
         run: |
-          aws ecs describe-task-definition --task-definition conference --query taskDefinition > task-definition.json
+          aws ecs describe-task-definition --task-definition marketplace --query taskDefinition > task-definition.json
 
       - name: Render Amazon ECS task definition for container
         id: render-container
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: task-definition.json
-          container-name: markettani
-          image: ${{ steps.login-ecr.outputs.registry }}/markettani:${{ github.sha }}
+          container-name: marketplace
+          image: ${{ steps.login-ecr.outputs.registry }}/marketplace:${{ github.sha }}
 
       - name: Deploy to Amazon ECS service
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.render-container.outputs.task-definition }}
-          service: markettani
-          cluster: markettani
+          service: marketplace
+          cluster: marketplace
           wait-for-service-stability: true
