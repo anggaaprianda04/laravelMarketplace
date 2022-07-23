@@ -49,7 +49,7 @@ jobs:
 
       - name: Download task def
         run: |
-          aws ecs describe-task-definition --task-definition conference --query taskDefinition > task-definition.json
+          aws ecs describe-task-definition --task-definition marketplace-task --query taskDefinition > task-definition.json
 
       - name: Render Amazon ECS task definition for container
         id: render-container
