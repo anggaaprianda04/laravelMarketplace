@@ -3,10 +3,6 @@
     "type": "project",
     "description": "The Laravel Framework.",
     "keywords": ["framework", "laravel"],
-    "post-install-cmd": [
-        "php artisan clear-compiled",
-        "chmod -R 777 public/"
-    ],
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
