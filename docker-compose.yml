@@ -8,7 +8,7 @@ services:
       context: ./
       dockerfile: Dockerfile
     image: marketplace
-    container_name: laravelMarketplace-app
+    container_name: marketplace-app
     restart: unless-stopped
     working_dir: /var/www/
     volumes:
@@ -18,7 +18,7 @@ services:
 
   mysql:
     image: mysql:5.7
-    container_name: laravelMarketplace-db
+    container_name: marketplace-db
     restart: unless-stopped
     ports:
       - "3306:3306"
@@ -36,7 +36,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin-marketplace
+    container_name: marketplace-phpmyadmin
     ports:
       - "7000:80"
     depends_on:
@@ -48,7 +48,7 @@ services:
 
   nginx:
     image: nginx:alpine
-    container_name: laravelMarketplace-nginx
+    container_name: marketplace-nginx
     restart: unless-stopped
     ports:
       - 8080:80
