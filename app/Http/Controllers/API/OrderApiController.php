@@ -84,7 +84,7 @@ class OrderApiController extends Controller
             'status' => $request->status,
             'total_price' => $request->total_price,
             'store_id' => $request->store_id,
-            'product_id' => 66
+            'product_id' => 72
         ]);
 
         foreach ($request->items as $product) {

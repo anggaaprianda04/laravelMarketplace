@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use function PHPUnit\Framework\isEmpty;
@@ -18,6 +19,15 @@ class CartApiController extends Controller
             'message' =>  'Belum ada pesanan'
         ]);
         return ResponseFormatter::success($carts, 'List keranjang berhasil ditampilkan');
+    }
+
+    public function cart($id)
+    {
+        $cart = Cart::with('product')->where('product_id', $id)->first();
+        if (empty($cart)) {
+            return ResponseFormatter::success($cart, 'Item tidak ditemukan');
+        }
+        return ResponseFormatter::success($cart, 'List berhasil ditampilkan');
     }
 
     public function addCart(Request $request)

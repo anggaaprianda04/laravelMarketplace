@@ -37,6 +37,7 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: marketplace-phpmyadmin
+    restart: unless-stopped
     ports:
       - "7000:80"
     depends_on:
