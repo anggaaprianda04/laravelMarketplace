@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CategoryProduct;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Product;
+use App\Models\Store;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
@@ -17,11 +21,27 @@ class TransactionController extends Controller
     {
         $order = Order::all();
         $totalQuantity = OrderItem::sum('quantity');
+        $totalProduct = Product::count('name');
+        $totalMarket = Store::count('id');
+        $totalUser = User::count('id');
+        $totalPrice = OrderItem::sum('price');
+        $totalCategory = CategoryProduct::count('id');
+
         return view('order.index', [
             'order' => $order,
             'totalQuantity' => $totalQuantity,
+            'totalProduct' => $totalProduct,
+            'totalMarket' => $totalMarket,
+            'totalUser' => $totalUser,
+            'totalPrice' => $totalPrice,
+            'totalCategory' => $totalCategory,
         ]);
     }
+
+    // public function print()
+    // {
+    //     return view('order.print');
+    // }
 
     /**
      * Show the form for creating a new resource.
@@ -30,7 +50,23 @@ class TransactionController extends Controller
      */
     public function create()
     {
-        //
+        $order = Order::all();
+        $totalQuantity = OrderItem::sum('quantity');
+        $totalProduct = Product::count('name');
+        $totalMarket = Store::count('id');
+        $totalUser = User::count('id');
+        $totalPrice = OrderItem::sum('price');
+        $totalCategory = CategoryProduct::count('id');
+
+        return view('order.create', [
+            'order' => $order,
+            'totalQuantity' => $totalQuantity,
+            'totalProduct' => $totalProduct,
+            'totalMarket' => $totalMarket,
+            'totalUser' => $totalUser,
+            'totalPrice' => $totalPrice,
+            'totalCategory' => $totalCategory,
+        ]);
     }
 
     /**

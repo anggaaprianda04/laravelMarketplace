@@ -1,0 +1,67 @@
+version: "3.9"
+services:
+  app:
+    build:
+      args:
+        user: angga
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: marketplace
+    container_name: marketplace-app
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+    networks:
+      - marketplace
+
+  mysql:
+    image: mysql:5.7
+    container_name: marketplace-db
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: laravel-marketplace
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_PASSWORD: admin
+      MYSQL_USER: admin
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ./docker/mysql:/var/lib/mysql
+    networks:
+      - marketplace
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: marketplace-phpmyadmin
+ orderProvider.statusOrder(
+                                order.id!.toInt(), 'PROGRESS');   
+ ports:
+      - "7000:80"
+    depends_on:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+    networks:
+      - marketplace
+
+  nginx:
+    image: nginx:alpine
+    container_name: marketplace-nginx
+    restart: unless-stopped
+    ports:
+      - 8080:80
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx:/etc/nginx/conf.d/
+    depends_on:
+      - app
+    networks:
+      - marketplace
+
+networks:
+  marketplace:
+    driver: bridge

@@ -24,6 +24,7 @@ Route::get('/', function () {
     return redirect()->route('dashboard');
 });
 
+
 // DASHBOARD
 Route::prefix('dashboard')
     ->middleware(['auth:sanctum'])
